@@ -1,3 +1,49 @@
+# Immersive Reader Demo
+
+
+## Create the Azure Resources
+
+An Immersive Reader resource configured for Azure Active Directory authentication is required.
+
+1. Sign in to [Azure Cloud Shell](https://shell.azure.com/) if you haven't done so already.
+
+1. In Cloud Shell, run the command provided in [these instructions](https://docs.microsoft.com/azure/cognitive-services/immersive-reader/how-to-create-immersive-reader) to create a funtion for provisioning the resources. Save the output of your session into a text file as you will need them later on.
+
+1. Run the following command to create the resources:
+
+```
+Create-ImmersiveReaderResource `
+    -SubscriptionName 'Microsoft Partner Network' `
+    -ResourceName 'immersive-reader-svc' `
+    -ResourceSubdomain 'immersive-reader-svc' `
+    -ResourceSKU 'S0' `
+    -ResourceLocation 'eastus' `
+    -ResourceGroupName 'immersive-reader-demo' `
+    -ResourceGroupLocation 'eastus' `
+    -AADAppDisplayName 'ImmersiveReaderDemoAADApp' `
+    -AADAppIdentifierUri 'https://ImmersiveReaderDemoAADApp' `
+    -AADAppClientSecret 'S0meStr0ngP@ssw0rd' `
+    -AADAppClientSecretExpiration '2021-12-31'
+```
+
+
+## Run the Sample API
+
+1. Open **ImmersiveReaderDemo.sln** in [Visual Studio 2019](https://visualstudio.microsoft.com/downloads).
+
+1. Open **appsettings.json**. Replace the contents of that file with the following, supplying your values as appropriate:
+
+    ```json
+    {
+      "TenantId": "<YOUR_TENANT_ID>",
+      "ClientId": "<YOUR_CLIENT_ID>",
+      "ClientSecret": "<YOUR_CLIENT_SECRET>",
+      "Subdomain": "<YOUR_SUBDOMAIN>"
+    }
+    ```
+
+1. Run **Debug > Start Debugging**.
+
 
 # Contributing
 
