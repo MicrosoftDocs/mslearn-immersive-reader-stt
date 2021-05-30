@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -29,9 +30,13 @@ namespace ImmersiveReaderDemoAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<ImmersiveReaderAuthOptions>(Configuration.GetSection("ImmersiveReader"));
+            services.Configure<SpeechServiceOptions>(Configuration.GetSection("SpeechService"));
             
             services.AddScoped<ADAuthenticationService>()
+                .AddScoped<SpeechService>()
                 .AddHttpClient();
+            
+            services.Configure<RouteOptions>(options => { options.LowercaseUrls = true; });
             
             services.AddControllers();
             services.AddSwaggerGen(c =>
