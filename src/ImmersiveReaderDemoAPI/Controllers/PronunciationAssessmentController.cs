@@ -46,7 +46,7 @@ namespace ImmersiveReaderDemoAPI.Controllers
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
-        
+
         private byte[] ConvertToByteArray(IFormFile audioFile)
         {
             using var br = new BinaryReader(audioFile.OpenReadStream());

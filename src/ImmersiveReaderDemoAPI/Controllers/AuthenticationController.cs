@@ -12,8 +12,8 @@ namespace ImmersiveReaderDemoAPI.Controllers
     [Route("[controller]")]
     public class AuthenticationController : ControllerBase
     {
-        private readonly ILogger<AuthenticationController> _logger;
         private readonly ADAuthenticationService _authenticationService;
+        private readonly ILogger<AuthenticationController> _logger;
 
         public AuthenticationController(ILogger<AuthenticationController> logger, ADAuthenticationService authenticationService)
         {

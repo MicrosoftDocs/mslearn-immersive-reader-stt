@@ -9,12 +9,12 @@ namespace ImmersiveReaderDemoAPI.Services
     public class ADAuthenticationService
     {
         private readonly ImmersiveReaderAuthOptions _options;
-        
+
         public ADAuthenticationService(IOptions<ImmersiveReaderAuthOptions> options)
         {
             _options = options == null ? throw new ArgumentNullException(nameof(options)) : options.Value;
         }
-        
+
         /// <summary>
         /// Get an Azure AD authentication token
         /// </summary>

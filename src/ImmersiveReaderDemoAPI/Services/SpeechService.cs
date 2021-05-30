@@ -13,20 +13,30 @@ namespace ImmersiveReaderDemoAPI.Services
     public class SpeechService : IDisposable
     {
         private static readonly AudioStreamFormat AudioInputFormat = AudioStreamFormat.GetWaveFormatPCM(16000, 16, 1);
-        
+
         private readonly ILogger<SpeechService> _logger;
         private readonly SpeechServiceOptions _options;
-        
+        private PushAudioInputStream _audioInputStream;
+
         private SpeechRecognizer _recognizer;
         private AudioConfig _streamConfig;
-        private PushAudioInputStream _audioInputStream;
 
         public SpeechService(ILogger<SpeechService> logger, IOptions<SpeechServiceOptions> options)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _options = options.Value ?? throw new ArgumentNullException(nameof(options));
         }
-        
+
+        public void Dispose()
+        {
+            if (_recognizer != null)
+            {
+                _recognizer.Dispose();
+                _audioInputStream.Dispose();
+                _streamConfig.Dispose();
+            }
+        }
+
         public async Task<PronunciationAssessmentResult> GetPronunciationScoreAsync(string referenceText, byte[] audioData)
         {
             var speechRecognizer = GetSpeechRecognizer();
@@ -51,17 +61,7 @@ namespace ImmersiveReaderDemoAPI.Services
 
             return null;
         }
-        
-        public void Dispose()
-        {
-            if (_recognizer != null)
-            {
-                _recognizer.Dispose();
-                _audioInputStream.Dispose();
-                _streamConfig.Dispose();
-            }
-        }
-        
+
         private SpeechRecognizer GetSpeechRecognizer()
         {
             if (_recognizer == null)
