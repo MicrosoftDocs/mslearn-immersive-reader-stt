@@ -11,5 +11,5 @@ export async function fetchToken() {
   if (!response.ok) {
     throw new Error("Error loading the access token.");
   }
-  return await response.json();
+  return await response.text();
 }
