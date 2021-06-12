@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "ImmersiveReaderDemoAPI": {
+    "ImmersiveReaderDemo": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": true,

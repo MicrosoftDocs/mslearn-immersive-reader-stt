@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ImmersiveReaderDemoAPI.Models;
-using ImmersiveReaderDemoAPI.Services;
+using ImmersiveReaderDemo.Models;
+using ImmersiveReaderDemo.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -15,7 +15,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
-namespace ImmersiveReaderDemoAPI
+namespace ImmersiveReaderDemo
 {
     public class Startup
     {
@@ -32,7 +32,7 @@ namespace ImmersiveReaderDemoAPI
             services.Configure<ImmersiveReaderAuthOptions>(Configuration.GetSection("ImmersiveReader"));
             services.Configure<SpeechServiceOptions>(Configuration.GetSection("SpeechService"));
             services.Configure<RouteOptions>(options => { options.LowercaseUrls = true; });
-            
+
             services.AddScoped<ADAuthenticationService>()
                 .AddScoped<SpeechService>()
                 .AddHttpClient();
@@ -40,7 +40,7 @@ namespace ImmersiveReaderDemoAPI
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "ImmersiveReaderDemoAPI", Version = "v1"});
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ImmersiveReaderDemo", Version = "v1" });
             });
         }
 
@@ -51,7 +51,7 @@ namespace ImmersiveReaderDemoAPI
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ImmersiveReaderDemoAPI v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ImmersiveReaderDemo v1"));
             }
 
             app.UseHttpsRedirection();

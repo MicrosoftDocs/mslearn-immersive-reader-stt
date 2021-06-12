@@ -1,12 +1,12 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using ImmersiveReaderDemoAPI.Services;
+using ImmersiveReaderDemo.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace ImmersiveReaderDemoAPI.Controllers
+namespace ImmersiveReaderDemo.Controllers
 {
     [ApiController]
     [Route("pronunciation-assessment")]
@@ -28,7 +28,7 @@ namespace ImmersiveReaderDemoAPI.Controllers
             {
                 return BadRequest("referenceText is required");
             }
-            
+
             if (file.ContentType != "audio/wav" && file.Length <= 0)
             {
                 return BadRequest("You must provide a wave file");
@@ -50,8 +50,8 @@ namespace ImmersiveReaderDemoAPI.Controllers
         private byte[] ConvertToByteArray(IFormFile audioFile)
         {
             using var br = new BinaryReader(audioFile.OpenReadStream());
-            
-            var data = br.ReadBytes((int) audioFile.OpenReadStream().Length);
+
+            var data = br.ReadBytes((int)audioFile.OpenReadStream().Length);
 
             return data;
         }

@@ -5,10 +5,10 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ImmersiveReaderDemoAPI.Models;
+using ImmersiveReaderDemo.Models;
 using Microsoft.CognitiveServices.Speech.PronunciationAssessment;
 
-namespace ImmersiveReaderDemoAPI.Services
+namespace ImmersiveReaderDemo.Services
 {
     public class SpeechService : IDisposable
     {
@@ -73,7 +73,7 @@ namespace ImmersiveReaderDemoAPI.Services
                 _streamConfig = AudioConfig.FromStreamInput(_audioInputStream);
 
                 // Creates a speech synthesizer, reuse this instance in real world applications to reduce number of connections
-                _recognizer = new SpeechRecognizer(config, _streamConfig);    
+                _recognizer = new SpeechRecognizer(config, _streamConfig);
             }
 
             return _recognizer;

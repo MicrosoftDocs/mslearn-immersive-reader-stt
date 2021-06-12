@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ImmersiveReaderDemoAPI.Services;
+using ImmersiveReaderDemo.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace ImmersiveReaderDemoAPI.Controllers
+namespace ImmersiveReaderDemo.Controllers
 {
     [ApiController]
     [Route("[controller]")]
