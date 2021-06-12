@@ -1,0 +1,70 @@
+name: Immersive Reader - Build and deploy
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+env:
+  OUTPUT_NAME: ImmersiveReaderDemo
+  AZURE_APP_NAME: immersive-reader-demo
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "5.0.103"
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Build with dotnet
+        run: dotnet build --configuration Release src
+
+      - name: dotnet publish
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/output src
+
+      - name: Deploy to staging slot
+        if: success() && github.event_name == 'pull_request'
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{env.AZURE_APP_NAME}}
+          slot-name: "staging"
+          publish-profile: ${{ secrets.AzureAppService_Staging }}
+          package: ${{env.DOTNET_ROOT}}/output
+
+      - name: Deploy to production slot
+        if: success() && github.event_name != 'pull_request'
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{env.AZURE_APP_NAME}}
+          slot-name: "production"
+          publish-profile: ${{ secrets.AzureAppService_Production }}
+          package: ${{env.DOTNET_ROOT}}/output
+
+      - name: Zip prod output
+        if: success() && github.event_name != 'pull_request'
+        working-directory: ${{env.DOTNET_ROOT}}/output
+        run: |
+          mkdir -p ${{ github.workspace }}/build-artifacts/prod/
+          sudo zip -FS -r ${{ github.workspace }}/build-artifacts/prod/${{env.OUTPUT_NAME}}.zip .
+
+      - name: Overwrite and check-in zip
+        if: success() && github.event_name != 'pull_request'
+        run: |
+          git config --global user.name 'github action commit'
+          git config --global user.email 'githubactioncheckin@users.noreply.github.com'
+          git add .
+          git commit -m "Build zip from commit:$(git rev-parse HEAD)"
+          git push
