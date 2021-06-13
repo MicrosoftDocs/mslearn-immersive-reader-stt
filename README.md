@@ -7,34 +7,6 @@ This repo contains the code for the MS Learn Immersive Reader Demo.
 - [Node >=12](https://nodejs.org)
 - [.Net Core 5](https://dotnet.microsoft.com/download/dotnet/5.0)
 
-## Getting started
-
-The first thing you need to do is add various secrets to your app replacing the values in `{}` from the Azure Portal:
-
-```
-cd src
-dotnet user-secrets set ImmersiveReader:SubDomain "{immersiveReaderSubDomain}"
-dotnet user-secrets set ImmersiveReader:ClientId "{immersiveReaderClientId}"
-dotnet user-secrets set ImmersiveReader:TenantId "{immersiveReaderTenantId}"
-dotnet user-secrets set ImmersiveReader:ClientSecret "{immersiveReaderClientSecret}"
-dotnet user-secrets set SpeechService:Region "{speechServiceApiKey}"
-dotnet user-secrets set SpeechService:ApiKey "{speechServiceApiKey}"
-```
-
-To run the app with live reload run the following:
-
-```bash
-cd src
-dotnet watch run
-```
-
-To publish the app:
-
-```bash
-cd src
-dotnet publish
-```
-
 ## Create the Azure Resources
 
 An Immersive Reader resource configured for Azure Active Directory authentication is required.
@@ -60,22 +32,33 @@ Create-ImmersiveReaderResource `
     -AADAppClientSecretExpiration '2021-12-31'
 ```
 
-## Run the Sample API
+## Run the demo
 
-1. Open **ImmersiveReaderDemo.sln** in [Visual Studio 2019](https://visualstudio.microsoft.com/downloads).
+This app needs user-secrets set in order to run. To do this run the following replacing the replacement tokens `{**}` with the value from the Azure resource:
 
-1. Open **appsettings.json**. Replace the contents of that file with the following, supplying your values as appropriate:
+```
+cd src
+dotnet user-secrets set ImmersiveReader:SubDomain "{immersiveReaderSubDomain}"
+dotnet user-secrets set ImmersiveReader:ClientId "{immersiveReaderClientId}"
+dotnet user-secrets set ImmersiveReader:TenantId "{immersiveReaderTenantId}"
+dotnet user-secrets set ImmersiveReader:ClientSecret "{immersiveReaderClientSecret}"
+dotnet user-secrets set SpeechService:Region "{speechServiceApiKey}"
+dotnet user-secrets set SpeechService:ApiKey "{speechServiceApiKey}"
+```
 
-   ```json
-   {
-     "TenantId": "<YOUR_TENANT_ID>",
-     "ClientId": "<YOUR_CLIENT_ID>",
-     "ClientSecret": "<YOUR_CLIENT_SECRET>",
-     "Subdomain": "<YOUR_SUBDOMAIN>"
-   }
-   ```
+To run the app with live reload run the following:
 
-1. Run **Debug > Start Debugging**.
+```bash
+cd src
+dotnet watch run
+```
+
+To publish the app:
+
+```bash
+cd src
+dotnet publish
+```
 
 # Contributing
 

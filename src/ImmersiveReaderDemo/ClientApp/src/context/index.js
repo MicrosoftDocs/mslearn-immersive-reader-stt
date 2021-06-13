@@ -1,1 +1,1 @@
-export * from "./TokenContext";
+export * from "./SettingsContext";

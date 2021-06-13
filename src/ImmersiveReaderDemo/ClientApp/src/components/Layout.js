@@ -1,16 +1,16 @@
 // local imports
 import "./App.css";
-import { useToken } from "./context";
+import { useSettings } from "./context";
 
 export const Layout = ({ children }) => {
-  const { isLoading, isError } = useToken();
+    const { isLoading, isError } = useSettings();
 
-  if (isLoading) {
-    return <>Loading...</>;
-  }
+    if (isLoading) {
+        return <>Loading...</>;
+    }
 
-  if (isError) {
-    return <>Error</>;
-  }
-  return <>{children}</>;
+    if (isError) {
+        return <>Error</>;
+    }
+    return <>{children}</>;
 };
