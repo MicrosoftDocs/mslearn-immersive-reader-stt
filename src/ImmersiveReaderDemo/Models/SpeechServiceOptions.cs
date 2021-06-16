@@ -1,4 +1,4 @@
-namespace ImmersiveReaderDemoAPI.Models
+namespace ImmersiveReaderDemo.Models
 {
     public class SpeechServiceOptions
     {

@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImmersiveReaderDemoAPI", "ImmersiveReaderDemoAPI\ImmersiveReaderDemoAPI.csproj", "{7711C097-3689-4346-B7B7-61039F4827D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImmersiveReaderDemo", "ImmersiveReaderDemo\ImmersiveReaderDemo.csproj", "{7711C097-3689-4346-B7B7-61039F4827D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,10 +1,10 @@
 using System;
 using System.Threading.Tasks;
-using ImmersiveReaderDemoAPI.Models;
+using ImmersiveReaderDemo.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 
-namespace ImmersiveReaderDemoAPI.Services
+namespace ImmersiveReaderDemo.Services
 {
     public class ADAuthenticationService
     {

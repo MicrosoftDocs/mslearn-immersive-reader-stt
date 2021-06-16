@@ -1,6 +1,6 @@
 using System;
 
-namespace ImmersiveReaderDemoAPI.Models
+namespace ImmersiveReaderDemo.Models
 {
     public class ImmersiveReaderAuthOptions
     {
