@@ -19,11 +19,11 @@ export function SettingsContextProvider({ children }) {
     isError,
   } = useQuery("settings", fetchSetting);
   if (isLoading) {
-    return <>Loading...</>;
+    return <></>;
   }
 
   if (isError) {
-    return <>Error</>;
+    return <>Sorry something went wrong. Please reload the page.</>;
   }
   return (
     <SettingsContext.Provider value={{ settings, error, isLoading, isError }}>

@@ -1,4 +1,4 @@
-export const QUERY_CLIENT_DEFAULTS = {
+export const REACT_QUERY_CLIENT_DEFAULTS = {
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,

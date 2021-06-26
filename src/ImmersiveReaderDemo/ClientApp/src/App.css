@@ -36,3 +36,12 @@
     transform: rotate(360deg);
   }
 }
+
+/*Immersive reader iframe*/
+body > div > iframe {
+  width: 50vw !important;
+}
+
+body > div:not(#root) {
+  width: 50vw !important;
+}
