@@ -7,7 +7,7 @@ export const useRecorder = () => {
   const [recorder, setRecorder] = useState(null);
 
   useEffect(() => {
-    // Lazily obtain recorder first time we're recording.
+    // lazily obtain recorder first time we're recording.
     if (recorder === null) {
       if (isRecording) {
         requestRecorder().then(setRecorder, console.error);
@@ -15,27 +15,28 @@ export const useRecorder = () => {
       return;
     }
 
-    // Manage recorder state.
+    // manage recorder state.
     if (isRecording) {
       recorder.start();
-    } else if (!isRecording && recorder.state === "recording") {
-      recorder.stop();
+    } else {
+      if (recorder.state === "recording") {
+        recorder.stop();
+      }
     }
 
-    // Obtain the audio when ready.
+    // set chunks as available for processing when recording stops
     const onDataAvailable = (e) => {
       chunks.push(e.data);
       setChucks([...chunks, e.data]);
     };
 
+    // when recording stop convert chunks to blob with audio/wav and pass to setAudioBlob
     const onstop = function (e) {
-      debugger;
-      console.log("MediaRecorder.stop() called.");
-
       var audio = document.createElement("audio");
       audio.controls = true;
       var blob = new Blob(chunks, { type: "audio/wav; codecs=MS_PCM" });
       setAudioBlob(blob);
+      setChucks([]); // reset chucks for next time
     };
 
     recorder.addEventListener("stop", onstop);

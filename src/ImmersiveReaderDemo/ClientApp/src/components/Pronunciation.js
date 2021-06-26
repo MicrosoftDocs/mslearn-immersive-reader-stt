@@ -36,7 +36,7 @@ export const Pronunciation = ({ referenceText }) => {
         </button>{" "}
       </div>
       <div className="row my-5">
-        <code>{JSON.stringify(pronunciationAssessment)}</code>
+        {pronunciationAssessment ? "Success" : undefined}
       </div>
     </>
   );
