@@ -1,28 +1,36 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export const useRecorder = () => {
-  const [audioBlob, setAudioBlob] = useState("");
-  const [chunks, setChucks] = useState([]);
+  const recorder = useRef(undefined);
+  const stream = useRef(undefined);
+  const [isInitialized, setIsInitialized] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
-  const [recorder, setRecorder] = useState(null);
+  const [audioBlob, setAudioBlob] = useState(undefined);
+  const [chunks, setChucks] = useState([]);
 
+  /**
+   * Initializes the MediaStream and MediaRecorder if not already initialized
+   */
   useEffect(() => {
-    // lazily obtain recorder first time we're recording.
-    if (recorder === null) {
-      if (isRecording) {
-        requestRecorder().then(setRecorder, console.error);
-      }
-      return;
+    if (isInitialized || recorder.current !== undefined) return;
+
+    async function initializeRecorder() {
+      const mediaStream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+      });
+      stream.current = mediaStream;
+      recorder.current = new MediaRecorder(mediaStream);
+      setIsInitialized(true);
     }
 
-    // manage recorder state.
-    if (isRecording) {
-      recorder.start();
-    } else {
-      if (recorder.state === "recording") {
-        recorder.stop();
-      }
-    }
+    initializeRecorder();
+  }, [isInitialized]);
+
+  /**
+   * Attaches event handlers to the the MediaRecorder once it is initialized
+   */
+  useEffect(() => {
+    if (!isInitialized) return;
 
     // set chunks as available for processing when recording stops
     const onDataAvailable = (e) => {
@@ -39,26 +47,36 @@ export const useRecorder = () => {
       setChucks([]); // reset chucks for next time
     };
 
-    recorder.addEventListener("stop", onstop);
-    recorder.addEventListener("dataavailable", onDataAvailable);
-    return () => {
-      recorder.removeEventListener("stop", onstop);
-      recorder.removeEventListener("dataavailable", onDataAvailable);
-    };
-  }, [recorder, isRecording, chunks]);
+    if (isInitialized) {
+      recorder.current.addEventListener("stop", onstop);
+      recorder.current.addEventListener("dataavailable", onDataAvailable);
+    }
+  }, [isInitialized, chunks]);
 
+  /**
+   * Stops and starts the MediaRecorder based on the isRecording state
+   */
+  useEffect(() => {
+    if (isRecording) {
+      recorder.current.start();
+    } else if (recorder.state === "recording") {
+      recorder.current.recorder.stop();
+    }
+  }, [isRecording]);
+
+  /**
+   * Start the recording
+   */
   const startRecording = () => {
     setIsRecording(true);
   };
 
+  /**
+   * Stop the recording
+   */
   const stopRecording = () => {
     setIsRecording(false);
   };
 
-  return [audioBlob, isRecording, startRecording, stopRecording];
+  return [audioBlob, isInitialized, isRecording, startRecording, stopRecording];
 };
-
-async function requestRecorder() {
-  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-  return new MediaRecorder(stream);
-}
