@@ -18,25 +18,47 @@ export const Pronunciation = ({ referenceText }) => {
     setPronunciationAssessment(results);
     setIsLoading(false);
   };
+  const renderControl = () => {
+    const hasAssessmentAudio = assessmentAudio !== undefined;
+    const hasPronunciationAssessment = pronunciationAssessment !== undefined;
+    return (
+      <>
+        <div className="row">
+          <div className="col">
+            <p>
+              <Microphone
+                disabled={isLoading}
+                onRecordingAvailable={onRecordingAvailable}
+              />
+            </p>
+            {hasAssessmentAudio && !hasPronunciationAssessment ? (
+              <p>
+                <button
+                  className="btn btn-primary"
+                  disabled={(assessmentAudio === undefined) | isLoading}
+                  onClick={() => getResults(assessmentAudio)}
+                >
+                  Get results
+                </button>
+              </p>
+            ) : null}
+          </div>
+        </div>
+      </>
+    );
+  };
   return (
     <>
-      <div className="row my-5">
-        <Microphone
-          disabled={isLoading}
-          onRecordingAvailable={onRecordingAvailable}
-        />
+      <div className="row">
+        <div className="col">
+          <h2>Pronunciation assessment</h2>
+        </div>
       </div>
+      {renderControl()}
       <div className="row my-5">
-        <button
-          className="btn btn-primary"
-          disabled={(assessmentAudio === undefined) | isLoading}
-          onClick={() => getResults(assessmentAudio)}
-        >
-          Get results
-        </button>{" "}
-      </div>
-      <div className="row my-5">
-        {pronunciationAssessment ? "Success" : undefined}
+        <div className="col">
+          {pronunciationAssessment ? "Success" : undefined}
+        </div>
       </div>
     </>
   );

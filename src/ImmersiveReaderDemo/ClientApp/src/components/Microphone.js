@@ -3,8 +3,14 @@ import { useEffect } from "react";
 // local imports
 import { useRecorder } from "../hooks";
 
-export const Microphone = ({ disabled, onRecordingAvailable }) => {
-  let [audioBlob, isRecording, startRecording, stopRecording] = useRecorder();
+export const Microphone = ({
+  startRecordingLabel = "Record",
+  stopRecordingLabel = "Stop",
+  disabled,
+  onRecordingAvailable,
+}) => {
+  let [audioBlob, isInitialized, isRecording, startRecording, stopRecording] =
+    useRecorder();
 
   useEffect(() => {
     if (audioBlob && !isRecording) {
@@ -15,18 +21,18 @@ export const Microphone = ({ disabled, onRecordingAvailable }) => {
     <>
       <audio style={{ display: "none" }} controls />
       <button
-        className="btn btn-primary"
+        className="btn btn-primary mr-2"
         onClick={startRecording}
-        disabled={isRecording | disabled}
+        disabled={!isInitialized | isRecording | disabled}
       >
-        start recording
+        {startRecordingLabel}
       </button>
       <button
         className="btn btn-danger"
         onClick={stopRecording}
-        disabled={!isRecording | disabled}
+        disabled={!isInitialized | !isRecording | disabled}
       >
-        stop recording
+        {stopRecordingLabel}
       </button>
     </>
   );
