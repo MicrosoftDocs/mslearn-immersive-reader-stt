@@ -12,11 +12,10 @@ export async function postAudio(audioBlob, referenceText) {
       "Error posting audio to the pronunciation assessment endpoint."
     );
   }
-  let result = undefined;
   try {
-    result = await response.json();
-  } catch {
-    result = "Success"; // catch error if the API returns nothing so we can test the page logic
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    return null;
   }
-  return result;
 }

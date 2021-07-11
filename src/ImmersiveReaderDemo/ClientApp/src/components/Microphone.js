@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 // local imports
 import { useRecorder } from "../hooks";
@@ -9,17 +9,28 @@ export const Microphone = ({
   disabled,
   onRecordingAvailable,
 }) => {
-  let [audioBlob, isInitialized, isRecording, startRecording, stopRecording] =
+  const audioElement = useRef(undefined);
+  const [audioBlob, isInitialized, isRecording, startRecording, stopRecording] =
     useRecorder();
 
   useEffect(() => {
     if (audioBlob && !isRecording) {
       onRecordingAvailable(audioBlob);
+      if (audioElement) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const srcUrl = e.target.result;
+          debugger;
+          audioElement.current.src = srcUrl;
+        };
+        reader.readAsDataURL(audioBlob);
+      }
     }
   }, [audioBlob, isRecording, onRecordingAvailable]);
+
   return (
     <>
-      <audio style={{ display: "none" }} controls />
+      <audio ref={audioElement} controls />
       <button
         className="btn btn-primary mr-2"
         onClick={startRecording}

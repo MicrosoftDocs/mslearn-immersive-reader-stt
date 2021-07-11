@@ -9,8 +9,8 @@ export const Pronunciation = ({ referenceText }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [pronunciationAssessment, setPronunciationAssessment] =
     useState(undefined);
-  const onRecordingAvailable = (audioUrl) => {
-    setAssessmentAudio(audioUrl);
+  const onRecordingAvailable = (audioBlob) => {
+    setAssessmentAudio(audioBlob);
   };
   const getResults = async () => {
     setIsLoading(true);

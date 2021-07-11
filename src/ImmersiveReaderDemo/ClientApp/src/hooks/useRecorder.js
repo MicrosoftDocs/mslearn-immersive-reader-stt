@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import { MediaRecorder } from "extendable-media-recorder";
 
 export const useRecorder = () => {
   const recorder = useRef(undefined);
@@ -6,7 +7,6 @@ export const useRecorder = () => {
   const [isInitialized, setIsInitialized] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [audioBlob, setAudioBlob] = useState(undefined);
-  const [chunks, setChucks] = useState([]);
 
   /**
    * Initializes the MediaStream and MediaRecorder if not already initialized
@@ -18,8 +18,11 @@ export const useRecorder = () => {
       const mediaStream = await navigator.mediaDevices.getUserMedia({
         audio: true,
       });
+      const mediaRecorder = new MediaRecorder(mediaStream, {
+        mimeType: "audio/wav",
+      });
       stream.current = mediaStream;
-      recorder.current = new MediaRecorder(mediaStream);
+      recorder.current = mediaRecorder;
       setIsInitialized(true);
     }
 
@@ -34,35 +37,28 @@ export const useRecorder = () => {
 
     // set chunks as available for processing when recording stops
     const onDataAvailable = (e) => {
-      chunks.push(e.data);
-      setChucks([...chunks, e.data]);
-    };
-
-    // when recording stop convert chunks to blob with audio/wav and pass to setAudioBlob
-    const onstop = function (e) {
-      var audio = document.createElement("audio");
-      audio.controls = true;
-      var blob = new Blob(chunks, { type: "audio/wav; codecs=MS_PCM" });
-      setAudioBlob(blob);
-      setChucks([]); // reset chucks for next time
+      setAudioBlob(e.data);
     };
 
     if (isInitialized) {
-      recorder.current.addEventListener("stop", onstop);
       recorder.current.addEventListener("dataavailable", onDataAvailable);
     }
-  }, [isInitialized, chunks]);
+    return () => {
+      recorder.current.removeEventListener("dataavailable", onDataAvailable);
+    };
+  }, [isInitialized, setAudioBlob]);
 
   /**
    * Stops and starts the MediaRecorder based on the isRecording state
    */
   useEffect(() => {
+    if (!isInitialized || recorder.current === undefined) return;
     if (isRecording) {
       recorder.current.start();
-    } else if (recorder.state === "recording") {
-      recorder.current.recorder.stop();
+    } else if (!isRecording && recorder.current.state === "recording") {
+      recorder.current.stop();
     }
-  }, [isRecording]);
+  }, [isInitialized, isRecording]);
 
   /**
    * Start the recording
