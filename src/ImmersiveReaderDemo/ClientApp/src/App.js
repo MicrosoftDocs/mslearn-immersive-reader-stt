@@ -15,7 +15,9 @@ const queryClient = new QueryClient(REACT_QUERY_CLIENT_DEFAULTS);
 function App() {
   useEffect(() => {
     const registerWavEncoder = async () => {
-      await register(await connect());
+      try {
+        await register(await connect());
+      } catch {}
     };
     registerWavEncoder();
   }, []);

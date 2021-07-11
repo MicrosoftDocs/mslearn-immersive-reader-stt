@@ -31,16 +31,17 @@ export const Pronunciation = ({ referenceText }) => {
                 onRecordingAvailable={onRecordingAvailable}
               />
             </p>
-            {hasAssessmentAudio && !hasPronunciationAssessment ? (
-              <p>
+            {hasAssessmentAudio ? (
+              <>
+                <p>Now you can get an assessment</p>
                 <button
                   className="btn btn-primary"
                   disabled={(assessmentAudio === undefined) | isLoading}
                   onClick={() => getResults(assessmentAudio)}
                 >
-                  Get results
+                  Get assessment
                 </button>
-              </p>
+              </>
             ) : null}
           </div>
         </div>
@@ -48,18 +49,25 @@ export const Pronunciation = ({ referenceText }) => {
     );
   };
   return (
-    <>
+    <div className="my-4 mx-2">
       <div className="row">
         <div className="col">
           <h2>Pronunciation assessment</h2>
+          <p>
+            Record yourself saying the phrase and get a pronunciation assessment
+            using Azure Cognitive Services Speech
+          </p>
         </div>
       </div>
       {renderControl()}
-      <div className="row my-5">
+      <div className="row my-4">
         <div className="col">
           {pronunciationAssessment ? (
             <>
-              <h3>Your result</h3>
+              <h3>Result</h3>
+              <p>
+                <b>Reference text:</b> {referenceText}
+              </p>
               <table className="table">
                 <thead>
                   <tr>
@@ -82,6 +90,6 @@ export const Pronunciation = ({ referenceText }) => {
           ) : null}
         </div>
       </div>
-    </>
+    </div>
   );
 };
