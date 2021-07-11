@@ -18,36 +18,6 @@ export const Pronunciation = ({ referenceText }) => {
     setPronunciationAssessment(results);
     setIsLoading(false);
   };
-  const renderControl = () => {
-    const hasAssessmentAudio = assessmentAudio !== undefined;
-    const hasPronunciationAssessment = pronunciationAssessment !== undefined;
-    return (
-      <>
-        <div className="row">
-          <div className="col">
-            <p>
-              <Microphone
-                disabled={isLoading}
-                onRecordingAvailable={onRecordingAvailable}
-              />
-            </p>
-            {hasAssessmentAudio ? (
-              <>
-                <p>Now you can get an assessment</p>
-                <button
-                  className="btn btn-primary"
-                  disabled={(assessmentAudio === undefined) | isLoading}
-                  onClick={() => getResults(assessmentAudio)}
-                >
-                  Get assessment
-                </button>
-              </>
-            ) : null}
-          </div>
-        </div>
-      </>
-    );
-  };
   return (
     <div className="my-4 mx-2">
       <div className="row">
@@ -59,7 +29,28 @@ export const Pronunciation = ({ referenceText }) => {
           </p>
         </div>
       </div>
-      {renderControl()}
+      <div className="row">
+        <div className="col">
+          <p>
+            <Microphone
+              disabled={isLoading}
+              onRecordingAvailable={onRecordingAvailable}
+            />
+          </p>
+          {assessmentAudio !== undefined ? (
+            <>
+              <p>Now you can get an assessment</p>
+              <button
+                className="btn btn-primary"
+                disabled={(assessmentAudio === undefined) | isLoading}
+                onClick={() => getResults(assessmentAudio)}
+              >
+                Get assessment
+              </button>
+            </>
+          ) : null}
+        </div>
+      </div>
       <div className="row my-4">
         <div className="col">
           {pronunciationAssessment ? (
