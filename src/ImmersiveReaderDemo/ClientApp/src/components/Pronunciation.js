@@ -57,7 +57,29 @@ export const Pronunciation = ({ referenceText }) => {
       {renderControl()}
       <div className="row my-5">
         <div className="col">
-          {pronunciationAssessment ? "Success" : undefined}
+          {pronunciationAssessment ? (
+            <>
+              <h3>Your result</h3>
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Accuracy</th>
+                    <th>Pronunciation</th>
+                    <th>Completeness</th>
+                    <th>Fluency</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{pronunciationAssessment.accuracyScore}</td>
+                    <td>{pronunciationAssessment.pronunciationScore}</td>
+                    <td>{pronunciationAssessment.completenessScore}</td>
+                    <td>{pronunciationAssessment.fluencyScore}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </>
+          ) : null}
         </div>
       </div>
     </>
