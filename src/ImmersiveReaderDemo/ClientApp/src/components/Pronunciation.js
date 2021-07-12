@@ -14,10 +14,12 @@ export const Pronunciation = ({ referenceText }) => {
     setAssessmentAudio(audioBlob);
   };
   const getResults = async () => {
+    setError(false);
     setIsLoading(true);
     const results = await postAudio(assessmentAudio, referenceText);
     if (!results) {
       setError(true);
+      setIsLoading(false);
     } else {
       setPronunciationAssessment(results);
       setIsLoading(false);
