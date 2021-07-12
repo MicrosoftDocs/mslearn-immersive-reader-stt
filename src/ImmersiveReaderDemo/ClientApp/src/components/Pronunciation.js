@@ -7,6 +7,7 @@ import { Microphone } from "../components";
 export const Pronunciation = ({ referenceText }) => {
   const [assessmentAudio, setAssessmentAudio] = useState(undefined);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
   const [pronunciationAssessment, setPronunciationAssessment] =
     useState(undefined);
   const onRecordingAvailable = (audioBlob) => {
@@ -15,8 +16,12 @@ export const Pronunciation = ({ referenceText }) => {
   const getResults = async () => {
     setIsLoading(true);
     const results = await postAudio(assessmentAudio, referenceText);
-    setPronunciationAssessment(results);
-    setIsLoading(false);
+    if (!results) {
+      setError(true);
+    } else {
+      setPronunciationAssessment(results);
+      setIsLoading(false);
+    }
   };
   return (
     <div className="my-4 mx-2">
@@ -53,7 +58,8 @@ export const Pronunciation = ({ referenceText }) => {
       </div>
       <div className="row my-4">
         <div className="col">
-          {pronunciationAssessment ? (
+          {error ? "Sorry something went wrong please try again" : null}
+          {!error && pronunciationAssessment ? (
             <>
               <h3>Result</h3>
               <p>

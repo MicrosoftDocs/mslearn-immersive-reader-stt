@@ -16,11 +16,6 @@ export async function postAudio(audioBlob, referenceText) {
     return await response.json();
   } catch (error) {
     console.error(error);
-    return {
-      accuracyScore: 8.3,
-      pronunciationScore: 7.9,
-      completenessScore: 9.2,
-      fluencyScore: 8.9,
-    };
+    return null;
   }
 }
