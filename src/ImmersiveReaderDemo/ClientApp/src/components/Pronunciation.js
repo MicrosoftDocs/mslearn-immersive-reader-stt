@@ -7,21 +7,26 @@ import { Microphone } from "../components";
 export const Pronunciation = ({ referenceText }) => {
   const [assessmentAudio, setAssessmentAudio] = useState(undefined);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(undefined);
   const [pronunciationAssessment, setPronunciationAssessment] =
     useState(undefined);
   const onRecordingAvailable = (audioBlob) => {
     setAssessmentAudio(audioBlob);
   };
   const getResults = async () => {
-    setError(false);
-    setIsLoading(true);
-    const results = await postAudio(assessmentAudio, referenceText);
-    if (!results) {
-      setError(true);
-      setIsLoading(false);
-    } else {
-      setPronunciationAssessment(results);
+    try {
+      setError(undefined);
+      setIsLoading(true);
+      const results = await postAudio(assessmentAudio, referenceText);
+      if (!results) {
+        setError("Sorry something went wrong. Please try again.");
+        setIsLoading(false);
+      } else {
+        setPronunciationAssessment(results);
+        setIsLoading(false);
+      }
+    } catch (error) {
+      setError(`Sorry something went wrong. Please try again. Error=${error}`);
       setIsLoading(false);
     }
   };

@@ -8,9 +8,9 @@ export async function postAudio(audioBlob, referenceText) {
     body: formData,
   });
   if (!response.ok) {
-    throw new Error(
-      "Error posting audio to the pronunciation assessment endpoint."
-    );
+    if (!response.ok) {
+      throw Error(response.statusText);
+    }
   }
   try {
     return await response.json();
