@@ -65,7 +65,7 @@ export const Pronunciation = ({ referenceText }) => {
       </div>
       <div className="row my-4">
         <div className="col">
-          {error ? "Sorry something went wrong please try again" : null}
+          {error ? <p>{error}</p> : null}
           {!error && pronunciationAssessment ? (
             <>
               <h3>Result</h3>
