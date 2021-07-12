@@ -25,7 +25,6 @@ namespace ImmersiveReaderDemo
         {
             services.Configure<ImmersiveReaderAuthOptions>(Configuration.GetSection("ImmersiveReader"));
             services.Configure<SpeechServiceOptions>(Configuration.GetSection("SpeechService"));
-            services.Configure<RouteOptions>(options => { options.LowercaseUrls = true; });
 
             services.AddScoped<ADAuthenticationService>()
                 .AddScoped<SpeechService>()
