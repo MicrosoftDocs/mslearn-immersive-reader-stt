@@ -38,6 +38,10 @@ namespace ImmersiveReaderDemo.Controllers
             {
                 var audioData = ConvertToByteArray(file);
                 var result = await _speechService.GetPronunciationScoreAsync(referenceText, audioData);
+                if (result == null)
+                {
+                    return BadRequest();
+                }
                 return Ok(result);
             }
             catch (Exception e)

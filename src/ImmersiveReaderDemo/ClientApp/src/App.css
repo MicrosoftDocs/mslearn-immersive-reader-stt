@@ -1,12 +1,3 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
@@ -35,4 +26,13 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/*Immersive reader iframe*/
+body > div > iframe {
+  width: 50vw !important;
+}
+
+body > div:not(#root) {
+  width: 50vw !important;
 }
